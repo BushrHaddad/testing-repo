@@ -1,0 +1,59 @@
+For example, an eater may notice if they order a lot of spicy szechuan food, they will behin to see more chinese restaurants selling spicy food in the app, At the same time, additional Thai, Japanese, or other Asian recommendations might show up, too. 
+
+We generate these recommendation based on both our modeling of each user's taste preference through machine learning and our semantic understanding of food types.
+Through multi-objective obtimization, we can help eaters discover a diverse array of restaurants and ensure that our restaurant-partners reeceive a fair amount of exposure in the app based on eater interest. 
+
+The first part of the series focused on building a query understanding engine for Uber Eats through an in-house food knwoledge graph and representation learning. 
+
+In the second article, we discuss how we recommend restaurants based not only on eater's history, but also with a view towards maintaining the health of our marketplace.
+
+
+Eater conversion rate: the percentage of ordering after seeing recommendations 
+
+However, we soon realized that optimizing only for eater conversion did not provide the best overall experience. As we continued to sign-up restaurant-partners for our platform, we found that new restaurants, even well-known and popular ones, were not getting the same volume of orders as we expected
+The BeeOrder marketplace consists of three sides: eaters, restaurants, and delivery partners. 
+All sides of this marketplace are equally important to ensure a seamless BeeOrder experience.
+==========================
+
+
+The current Uber eats home screen contains heterogeneous types of content: 
+1- Collections of Restaurants 
+ 	what kind of restaurant carousels should be presented to this eater and how to rank the plain list of all restaurants in order to display restaurants the eater would like to order from at the top.
+
+
+Many different considerations play a part in what the app displays, if we take a deeper look at how to best rank all available restaurants for a particular eater, these factors include:
+1- How popular is the restaurant itself, and what are the best features to determine popularity?
+Do we rely on the rating, the historic total orders, or the most recent month’s total orders? The order/impression ratio?
+
+
+2- What are the most representative attributes of the restaurant? Does the restaurant prepare and deliver food faster than others? What type of cuisines does it offer?
+
+
+3- What are the current contextual factors? Is it breakfast time or dinner time? What are the current traffic conditions along the delivery path? Is it a weekday or a weekend?
+
+4- What attributes best describe the eater? How many orders has the eater placed so far or in the last month? What kind of cuisines does the eater order most frequently? Is this person a new eater? Did this eater put any dishes into their shopping cart from the restaurant they just clicked into?
+
+
+5- What factors represents an eater’s preference for a particular restaurant? Do we look at how often this eater has clicked into/ordered from this restaurant? Did the eater give this restaurant a high rating?
+
+6- What would like-minded eaters order? How do we represent and find similar eaters? How about similar restaurants and dishes? How do we cold start new eaters in the context of collaborative filtering?
+
+
+
+
+Diversity:
+This problem motivated us to think about another ranking objective: diversity. More specifically, a good recommendation should be both relevant (so that eaters can easily find relevant restaurants) and diverse (so that eaters can explore different types of food as well). To this end, we developed a personalized diversification algorithm that takes the eater’s taste profile and restaurant cuisine profile as vector representations of the eater and the restaurant, and optimizes a combined objective of relevance and diversity. Optimization is done in a greedy way in that the restaurant at each position is determined sequentially. The launch of personalized diversification for Uber Eats leads to a significant lift in business metrics.
+
+
+
+
+Restaurant-Partners:
+The popularity of restaurants is, of course, completely up to the eaters on our platform. However, we do want to give restaurants the opporunity to be seen on our platoform. 
+
+The relevance ranking model for a plain list of restaurants outlined above relies heavily on historic data. without special treatment, a new restaurant on our platform may have a low ranking since it has no impressions and no historic orders. To give new restaurants a fair opporunity to rank high and gather exposure, we need the 
+multi-armed-bandit (MAB) framework.
+
+in this case, we applied the upper confidence bound (UCB) approach to facilitate the exploration of new restaurants or restaurants with low impressions. 
+
+
+We calculate a UCB score for each restaurant based on metrics such as its historic impression number, total click number, and boosting factor. A new restaurant will have a relatively high UCB score initially and hence rank highly,
