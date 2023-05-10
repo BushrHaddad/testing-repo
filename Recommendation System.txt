@@ -1,3 +1,6 @@
+
+
+
 For example, an eater may notice if they order a lot of spicy szechuan food, they will behin to see more chinese restaurants selling spicy food in the app, At the same time, additional Thai, Japanese, or other Asian recommendations might show up, too. 
 
 We generate these recommendation based on both our modeling of each user's taste preference through machine learning and our semantic understanding of food types.
